@@ -1,0 +1,21 @@
+﻿<Window x:Class="SimpleYT2MP3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimpleYT2MP3"
+        mc:Ignorable="d"
+        Title="YouTube to MP3 Converter" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <TextBox x:Name="YoutubeLinkInput" Width="600" Height="50" FontSize="12"/>
+            <Button x:Name="DownloadButton" Content="Download" Width="150" FontSize="15" Click="DownloadButton_Click"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Directory not selected..." x:Name="DirectoryLabel"/>
+                <Button x:Name="DirectorySelectorButton" Content="Choose directory" Click="DirectorySelectorButton_Click"/>
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Window>

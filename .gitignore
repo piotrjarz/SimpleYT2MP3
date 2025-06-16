@@ -1,0 +1,71 @@
+## Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.log
+
+## Visual Studio files
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+*.sln.iml
+
+## NuGet
+*.nupkg
+packages/
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## .NET Core
+project.assets.json
+*.csproj.user
+
+## Output folders
+TestResults/
+out/
+publish/
+
+## Temporary files
+*.tmp
+*.bak
+*.swp
+*~$
+
+## Debug / crash logs
+*.pidb
+*.mdb
+*.stackdump
+
+## Windows thumbnails / junk
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## User-specific files
+*.userprefs
+*.userconfig
+
+## Others
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+*.dotCover
+*.orig
+
+## Python scripts (if any)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+## VSCode extensions
+.history/
