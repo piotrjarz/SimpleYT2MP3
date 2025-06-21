@@ -7,20 +7,31 @@ using System.Diagnostics;
 
 namespace SimpleYT2MP3.CSPythonScripts
 {
-    public class PythonScripstRunner
+    public class PythonScriptsRunner : IScriptRunner
     {
-        public static string RunScript(string scriptPath, string input, string downloadDirectory = "")
+        private readonly string _pythonExecutable;
+
+        public PythonScriptsRunner (string pythonExecutable = "python")
+        {
+            _pythonExecutable = pythonExecutable;
+        }
+
+        public string Run(string scriptPath, params string[] args)
         {
             string output = String.Empty;
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = "python";
-                psi.Arguments = $"\"{scriptPath}\" \"{input}\" \"{downloadDirectory}\"";
-                psi.RedirectStandardError = true;
-                psi.RedirectStandardOutput = true;
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = true;
+                string arguments = $"\"{scriptPath}\" {string.Join(" ", args.Select(a => $"\"{a}\""))}";
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = _pythonExecutable,
+                    Arguments = arguments,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
                 using (Process process = new Process())
                 {
@@ -32,17 +43,13 @@ namespace SimpleYT2MP3.CSPythonScripts
 
                     process.WaitForExit();
 
-                    if (!string.IsNullOrEmpty(errors))
-                    {
-                        return $"Błąd: {errors}";
-                    }
-                    return output;
+                    return string.IsNullOrEmpty(errors) ? output : $"Error: {errors}";
 
                 }
             }
             catch(Exception ex)
             {
-                return $"Błąd: ${ex}";
+                return $"Error: ${ex}";
             }
         }
     }

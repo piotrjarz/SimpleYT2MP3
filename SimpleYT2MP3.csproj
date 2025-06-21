@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="python\program.py" />
+    <None Remove="python\YoutubeDownloadScript.py" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="python\program.py">
+    <Content Include="python\YoutubeDownloadScript.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

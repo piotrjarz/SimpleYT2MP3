@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using SimpleYT2MP3.CSPythonScripts;
+using SimpleYT2MP3.CSPythonScripts.Interfaces;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,17 +26,40 @@ namespace SimpleYT2MP3
             InitializeComponent();
         }
 
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsLoaded)
             {
                 try
                 {
-                    youtubeLink = YoutubeLinkInput.Text;
-                    string downloadScriptPath = PythonScriptsPaths.Paths["Download"];
-                    string output = PythonScripstRunner.RunScript(downloadScriptPath, youtubeLink, downloadDirectory);
+                    DownloadButton.IsEnabled = false;
+                    StatusLabel.Content = "Downloading...";
 
-                    MessageBox.Show(output);
+                    youtubeLink = YoutubeLinkInput.Text;
+
+                    if (youtubeLink == String.Empty)
+                    {
+                        MessageBox.Show("Please type in the link!");
+                        return;
+                    }
+
+                    
+
+                    IScriptPathProvider pathProvider = new DictionaryScriptPathsProvider();
+                    string downloadScriptPath = pathProvider.GetScriptPath("Download");
+
+
+                    IScriptRunner scriptRunner = new PythonScriptsRunner();
+
+
+                    string output = await Task.Run(() =>
+                    {
+                        return scriptRunner.Run(downloadScriptPath, youtubeLink, downloadDirectory);
+                    });
+
+                    StatusLabel.Content = output;
+
+                    DownloadButton.IsEnabled = true;
                 }
                 catch (Exception ex)
                 {
