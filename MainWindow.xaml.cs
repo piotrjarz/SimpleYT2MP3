@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using SimpleYT2MP3.AppLogic;
+using SimpleYT2MP3.AppLogic.Interfaces;
 using SimpleYT2MP3.CSPythonScripts;
 using SimpleYT2MP3.CSPythonScripts.Interfaces;
 using System.Text;
@@ -32,39 +34,67 @@ namespace SimpleYT2MP3
             {
                 try
                 {
-                    DownloadButton.IsEnabled = false;
-                    StatusLabel.Content = "Downloading...";
-
                     youtubeLink = YoutubeLinkInput.Text;
+
+                    IDownloadStatusProvider statusProvider = new DownloadStatusContentProvider();
+                    IScriptRunner scriptRunner = new PythonScriptsRunner();
+                    IScriptPathProvider pathProvider = new DictionaryScriptPathsProvider();
+                    
+                    IDownloadService downloadService = new DownloadService(statusProvider, pathProvider, scriptRunner);
+
+
+                    string downloadScriptPath = pathProvider.GetScriptPath("Download");
+                    string downloadStatus = statusProvider.GetDownloadStatus("Download");
+                    
+                    SetStatusLabelContent(downloadStatus);
+                    
+                    DisableButtons();
 
                     if (youtubeLink == String.Empty)
                     {
                         MessageBox.Show("Please type in the link!");
+
+                        downloadStatus = statusProvider.GetDownloadStatus("Error");
+                        SetStatusLabelContent(downloadStatus);
+
+                        EnableButtons();
                         return;
                     }
 
-                    
+                    string output = await downloadService.RunDownloadAsync(youtubeLink, downloadDirectory);
 
-                    IScriptPathProvider pathProvider = new DictionaryScriptPathsProvider();
-                    string downloadScriptPath = pathProvider.GetScriptPath("Download");
-
-
-                    IScriptRunner scriptRunner = new PythonScriptsRunner();
+                    SetStatusLabelContent(output);
 
 
-                    string output = await Task.Run(() =>
-                    {
-                        return scriptRunner.Run(downloadScriptPath, youtubeLink, downloadDirectory);
-                    });
-
-                    StatusLabel.Content = output;
-
-                    DownloadButton.IsEnabled = true;
+                    EnableButtons();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Błąd: {ex}");
                 }
+            }
+        }
+
+        private void SetStatusLabelContent(string content)
+        {
+            StatusLabel.Content = content;
+        }
+
+        private void DisableButtons()
+        {
+            if (IsLoaded)
+            {
+                DownloadButton.IsEnabled = false;
+                DirectorySelectorButton.IsEnabled = false;
+            }
+        }
+
+        private void EnableButtons()
+        {
+            if (IsLoaded)
+            {
+                DownloadButton.IsEnabled = true;
+                DirectorySelectorButton.IsEnabled = true;
             }
         }
 
