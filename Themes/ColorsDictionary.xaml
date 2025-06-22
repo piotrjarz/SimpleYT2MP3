@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Colors used in project-->
+    <Color x:Key="MenuDarkBlue">#086788</Color>
+    <Color x:Key="MainWindowWhite">#F4F6F8</Color>
+    <Color x:Key="ButtonActiveYellow">#F0C808</Color>
+    <Color x:Key="PathLabelBlue">#06AED5</Color>
+    <Color x:Key="SuccessGreen">#28A745</Color>
+    <Color x:Key="ErrorRed">#D32F2F</Color>
+    
+    <!--Brushes used in project-->
+    <SolidColorBrush x:Key="MenuBrush" Color="{StaticResource MenuDarkBlue}"/>
+    <SolidColorBrush x:Key="MainWindowBrush" Color="{StaticResource MainWindowWhite}"/>
+    <SolidColorBrush x:Key="ActiveButtonBrush" Color="{StaticResource ButtonActiveYellow}"/>
+    <SolidColorBrush x:Key="PathLabelBrush" Color="{StaticResource PathLabelBlue}"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessGreen}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorRed}"/>
+
+</ResourceDictionary>
